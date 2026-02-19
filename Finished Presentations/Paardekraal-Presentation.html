@@ -728,6 +728,89 @@
         }
 
         /* ============================================
+           ASSESSMENT CONCLUSIONS SLIDE
+           ============================================ */
+        .conclusions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            margin-top: 28px;
+            width: 100%;
+        }
+
+        .conclusions-col-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-family: var(--font-heading);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .conclusions-col-header .col-pip {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .col-pip--pro    { background: var(--cenec-green); }
+        .col-pip--concern { background: #d4a017; }
+
+        .col-label--pro    { color: var(--cenec-green); }
+        .col-label--concern { color: #d4a017; }
+
+        .assessment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 9px;
+            margin-bottom: 10px;
+        }
+
+        .assessment-item--pro {
+            background: rgba(78, 204, 163, 0.07);
+            border: 1px solid rgba(78, 204, 163, 0.2);
+        }
+
+        .assessment-item--concern {
+            background: rgba(212, 160, 23, 0.06);
+            border: 1px solid rgba(212, 160, 23, 0.2);
+        }
+
+        .assessment-item-icon {
+            font-size: 1rem;
+            margin-top: 1px;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .assessment-item-body {}
+
+        .assessment-item-title {
+            font-family: var(--font-heading);
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+
+        .assessment-item--pro    .assessment-item-title { color: var(--cenec-green); }
+        .assessment-item--concern .assessment-item-title { color: #d4a017; }
+
+        .assessment-item-desc {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0.65;
+            line-height: 1.45;
+        }
+
+        /* ============================================
            BOTTOM NAVIGATION TAB BAR
            ============================================ */
         .nav-tab-bar {
@@ -845,7 +928,8 @@
         <div class="nav-dot" onclick="scrollToSlide(14)" title="Heatmap"></div>
         <div class="nav-dot" onclick="scrollToSlide(15)" title="Wind Map"></div>
         <div class="nav-dot" onclick="scrollToSlide(16)" title="Solar"></div>
-        <div class="nav-dot" onclick="scrollToSlide(17)" title="Thank You"></div>
+        <div class="nav-dot" onclick="scrollToSlide(17)" title="Conclusions"></div>
+        <div class="nav-dot" onclick="scrollToSlide(18)" title="Thank You"></div>
     </nav>
 
     <!-- Bottom Navigation Tab Bar -->
@@ -925,6 +1009,10 @@
             </div>
             <div class="nav-tab-item" onclick="scrollToSlide(17)">
                 <span class="nav-tab-num">18</span>
+                <span class="nav-tab-name">Conclusions</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(18)">
+                <span class="nav-tab-num">19</span>
                 <span class="nav-tab-name">Thank You</span>
             </div>
         </div>
@@ -1494,9 +1582,103 @@
 
 
     <!-- ==========================================
-         SLIDE 18 — THANK YOU / CTA
+         SLIDE 18 — ASSESSMENT CONCLUSIONS
          ========================================== -->
-    <section class="slide slide--chapter" id="slide-17"
+    <section class="slide slide--dark" id="slide-17">
+
+        <p class="subtitle animate-in">Paardekraal Wind Farm</p>
+        <h2 class="animate-in" style="animation-delay: 0.15s;">
+            Assessment <span class="text-accent">Conclusions</span>
+        </h2>
+        <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+
+        <div class="conclusions-grid animate-in" style="animation-delay: 0.45s;">
+
+            <!-- PROS column -->
+            <div>
+                <div class="conclusions-col-header">
+                    <div class="col-pip col-pip--pro"></div>
+                    <span class="col-label--pro">Pros</span>
+                </div>
+
+                <div class="assessment-item assessment-item--pro">
+                    <div class="assessment-item-icon">✓</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Excellent Wind Profile</div>
+                        <div class="assessment-item-desc">High capacity factor — above 45%, potentially exceeding 50%</div>
+                    </div>
+                </div>
+
+                <div class="assessment-item assessment-item--pro">
+                    <div class="assessment-item-icon">✓</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Good Solar Site</div>
+                        <div class="assessment-item-desc">Favourable mounting &amp; soil conditions</div>
+                    </div>
+                </div>
+
+                <div class="assessment-item assessment-item--pro">
+                    <div class="assessment-item-icon">✓</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">&gt;10,000 ha Big Site</div>
+                        <div class="assessment-item-desc">Significant scaling potential</div>
+                    </div>
+                </div>
+
+                <div class="assessment-item assessment-item--pro">
+                    <div class="assessment-item-icon">✓</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Water Source Available</div>
+                        <div class="assessment-item-desc">Green hydrogen production potential</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONCERNS column -->
+            <div>
+                <div class="conclusions-col-header">
+                    <div class="col-pip col-pip--concern"></div>
+                    <span class="col-label--concern">Concerns</span>
+                </div>
+
+                <div class="assessment-item assessment-item--concern">
+                    <div class="assessment-item-icon">⚠</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Proximity to Karoo National Park</div>
+                        <div class="assessment-item-desc">Visual &amp; other environmental impact to assess</div>
+                    </div>
+                </div>
+
+                <div class="assessment-item assessment-item--concern">
+                    <div class="assessment-item-icon">⚠</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Environmental Screening</div>
+                        <div class="assessment-item-desc">Few red flags — detailed assessment required</div>
+                    </div>
+                </div>
+
+                <div class="assessment-item assessment-item--concern">
+                    <div class="assessment-item-icon">⚠</div>
+                    <div class="assessment-item-body">
+                        <div class="assessment-item-title">Distance &amp; Connection</div>
+                        <div class="assessment-item-desc">Long pipeline and overhead line (OHL) required</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>18</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 19 — THANK YOU / CTA
+         ========================================== -->
+    <section class="slide slide--chapter" id="slide-18"
              style="background-image: url('../assets/WindFarm.png');">
         <div class="chapter-overlay" style="background: linear-gradient(135deg, rgba(22,33,62,0.92) 0%, rgba(26,26,46,0.82) 60%, rgba(78,204,163,0.1) 100%);"></div>
         <div class="chapter-content">
