@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paardekraal Wind Farm — Quick Assessment | CENEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           CENEC STYLE SYSTEM — Paardekraal Assessment
+           ============================================ */
+        :root {
+            --cenec-dark:        #1a1a2e;
+            --cenec-dark-alt:    #16213e;
+            --cenec-green:       #4ecca3;
+            --cenec-green-light: #7efcd2;
+            --cenec-green-dark:  #38a67e;
+            --cenec-white:       #ffffff;
+            --cenec-off-white:   #f0f4f3;
+            --cenec-gray-light:  #e0e6e4;
+            --cenec-gray:        #8a9a95;
+            --cenec-gray-dark:   #4a5568;
+            --gradient-hero:     linear-gradient(135deg, rgba(26,26,46,0.95) 0%, rgba(22,33,62,0.88) 50%, rgba(78,204,163,0.12) 100%);
+            --gradient-dark:     linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            --gradient-accent:   linear-gradient(135deg, #4ecca3 0%, #38a67e 100%);
+            --font-heading:      'Montserrat', sans-serif;
+            --font-body:         'Open Sans', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--cenec-white);
+            background: var(--cenec-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           SLIDE BASE
+           ============================================ */
+        .slide {
+            min-height: 100vh;
+            padding: 70px 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+
+        /* Dark slide variant */
+        .slide--dark {
+            background: var(--gradient-dark);
+            color: var(--cenec-white);
+        }
+
+        .slide--dark::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(78,204,163,0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(78,204,163,0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .slide--dark::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+        }
+
+        /* Hero slide */
+        .slide--hero {
+            background: var(--cenec-dark);
+            color: var(--cenec-white);
+            text-align: center;
+            align-items: center;
+        }
+
+        .slide--hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(78,204,163,0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 20%, rgba(78,204,163,0.06) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        /* Full-screen background image slides */
+        .slide--chapter {
+            padding: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide--chapter .chapter-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(22,33,62,0.88) 0%, rgba(26,26,46,0.75) 60%, rgba(78,204,163,0.08) 100%);
+        }
+
+        .slide--chapter .chapter-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 90px;
+        }
+
+        /* Full-screen image-only slides */
+        .slide--image-only {
+            padding: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .slide h1 {
+            font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        .slide h2 {
+            font-size: clamp(1.7rem, 3vw, 2.8rem);
+            margin-bottom: 14px;
+        }
+
+        .slide h3 {
+            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .slide p {
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+            font-weight: 300;
+            opacity: 0.88;
+            max-width: 760px;
+        }
+
+        .text-accent { color: var(--cenec-green); }
+
+        .subtitle {
+            font-family: var(--font-heading);
+            font-size: clamp(0.75rem, 1vw, 0.95rem);
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--cenec-green);
+            margin-bottom: 14px;
+        }
+
+        .divider {
+            width: 56px;
+            height: 3px;
+            background: var(--gradient-accent);
+            margin: 18px 0;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .divider--center { margin: 18px auto; }
+
+        /* ============================================
+           CENEC LOGO
+           ============================================ */
+        .cenec-logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .cenec-logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--cenec-white);
+        }
+
+        .cenec-logo-text span { color: var(--cenec-green); }
+
+        /* ============================================
+           TWO-COLUMN LAYOUT
+           ============================================ */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .two-col--wide-left  { grid-template-columns: 1.45fr 1fr; }
+        .two-col--wide-right { grid-template-columns: 1fr 1.45fr; }
+
+        /* ============================================
+           IMAGE CONTAINERS
+           ============================================ */
+        .img-wrap {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(78,204,163,0.18);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, rgba(78,204,163,0.08) 0%, rgba(26,26,46,0.5) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(78,204,163,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cenec-green);
+            font-family: var(--font-heading);
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* ============================================
+           PHOTO GRID (Slide 4)
+           ============================================ */
+        .photo-grid-wrap {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .photo-cell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-cell img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .photo-cell:hover img { transform: scale(1.03); }
+
+        .photo-cell-placeholder {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(22,33,62,0.9) 0%, rgba(26,26,46,0.7) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cenec-green);
+            opacity: 0.7;
+        }
+
+        .photo-cell::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-right: 1px solid rgba(78,204,163,0.12);
+        }
+
+        .photo-cell:last-child::after { border-right: none; }
+
+        /* ============================================
+           TABLE OF CONTENTS
+           ============================================ */
+        .toc-list { list-style: none; margin-top: 28px; max-width: 700px; }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(78,204,163,0.1);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .toc-item:last-child { border-bottom: none; }
+        .toc-item:hover .toc-title { color: var(--cenec-green); }
+
+        .toc-number {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            color: var(--cenec-green);
+            min-width: 28px;
+            opacity: 0.8;
+        }
+
+        .toc-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        /* ============================================
+           FEATURE LIST
+           ============================================ */
+        .feature-list { list-style: none; margin-top: 18px; }
+
+        .feature-list li {
+            padding: 7px 0 7px 28px;
+            position: relative;
+            font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+            font-weight: 300;
+            opacity: 0.88;
+            line-height: 1.5;
+        }
+
+        .feature-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--cenec-green);
+            font-weight: 700;
+        }
+
+        /* ============================================
+           ORDERED LIST (numbered steps)
+           ============================================ */
+        .step-list { list-style: none; margin-top: 18px; counter-reset: step; }
+
+        .step-list li {
+            padding: 9px 0 9px 42px;
+            position: relative;
+            font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+            font-weight: 300;
+            opacity: 0.88;
+            counter-increment: step;
+            line-height: 1.5;
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 26px;
+            height: 26px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--cenec-dark);
+            line-height: 26px;
+            text-align: center;
+        }
+
+        /* ============================================
+           IP PORTFOLIO GRID
+           ============================================ */
+        .ip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .ip-card {
+            background: rgba(78,204,163,0.06);
+            border: 1px solid rgba(78,204,163,0.18);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--cenec-white);
+            text-align: center;
+            letter-spacing: 0.03em;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .ip-card.animate-in {
+            animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .ip-card:hover {
+            background: rgba(78,204,163,0.14);
+            border-color: rgba(78,204,163,0.4);
+            transform: translateY(-2px);
+        }
+
+        .ip-card.more {
+            background: rgba(78,204,163,0.12);
+            border-color: rgba(78,204,163,0.35);
+            color: var(--cenec-green);
+        }
+
+        /* ============================================
+           ASSESSMENT CALLOUT
+           ============================================ */
+        .assessment-box {
+            background: rgba(78,204,163,0.07);
+            border: 1px solid rgba(78,204,163,0.22);
+            border-left: 4px solid var(--cenec-green);
+            border-radius: 8px;
+            padding: 16px 22px;
+            margin-top: 20px;
+            font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           CAPACITY FACTOR HIGHLIGHT
+           ============================================ */
+        .cf-highlight {
+            background: linear-gradient(135deg, rgba(78,204,163,0.16) 0%, rgba(56,166,126,0.08) 100%);
+            border: 2px solid rgba(78,204,163,0.45);
+            border-radius: 14px;
+            padding: 22px 30px;
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .cf-value {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 5vw, 5.5rem);
+            font-weight: 900;
+            color: var(--cenec-green);
+            line-height: 1;
+        }
+
+        .cf-label {
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           STAT CALLOUTS (Solar slide)
+           ============================================ */
+        .stat-callouts {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-callout {
+            background: rgba(78,204,163,0.08);
+            border: 1px solid rgba(78,204,163,0.25);
+            border-radius: 10px;
+            padding: 16px 22px;
+            flex: 1;
+            min-width: 130px;
+            text-align: center;
+        }
+
+        .stat-callout-value {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+            font-weight: 800;
+            color: var(--cenec-green);
+            line-height: 1;
+        }
+
+        .stat-callout-label {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.65;
+            margin-top: 6px;
+        }
+
+        /* ============================================
+           BULLETS WITH ICONS
+           ============================================ */
+        .bullet-list { list-style: none; margin-top: 16px; }
+
+        .bullet-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+            font-weight: 300;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .bullet-list li .bullet-dot {
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            background: var(--cenec-green);
+            border-radius: 50%;
+            margin-top: 7px;
+        }
+
+        .bullet-list li strong { color: var(--cenec-green); font-weight: 600; }
+
+        /* ============================================
+           SLIDE FOOTER
+           ============================================ */
+        .slide-footer {
+            position: absolute;
+            bottom: 22px;
+            left: 90px;
+            right: 90px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            opacity: 0.35;
+            font-family: var(--font-heading);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        /* ============================================
+           NAVIGATION DOTS
+           ============================================ */
+        .nav-dots {
+            position: fixed;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            z-index: 200;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid rgba(78,204,163,0.4);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--cenec-green);
+            border-color: var(--cenec-green);
+            box-shadow: 0 0 10px rgba(78,204,163,0.45);
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .animate-in {
+            opacity: 0;
+            animation: fadeInUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        /* ============================================
+           CTA BUTTON
+           ============================================ */
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 16px 42px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: var(--gradient-accent);
+            color: var(--cenec-dark);
+            box-shadow: 0 4px 24px rgba(78, 204, 163, 0.35);
+            transition: all 0.35s ease;
+            margin-top: 24px;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 36px rgba(78, 204, 163, 0.5);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 15px 38px;
+            border-radius: 5px;
+            border: 2px solid rgba(78,204,163,0.6);
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: transparent;
+            color: var(--cenec-green);
+            margin-top: 24px;
+            transition: all 0.35s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(78,204,163,0.1);
+            border-color: var(--cenec-green);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           WIND ASSESSMENT BULLET LIST
+           ============================================ */
+        .wind-bullets { list-style: none; margin-top: 16px; }
+
+        .wind-bullets li {
+            padding: 8px 0 8px 26px;
+            position: relative;
+            font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+            font-weight: 300;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .wind-bullets li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--cenec-green);
+            font-size: 0.85rem;
+            top: 9px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1100px) {
+            .slide { padding: 60px 60px; }
+            .slide-footer { left: 60px; right: 60px; }
+        }
+
+        @media (max-width: 900px) {
+            .slide { padding: 50px 36px; }
+            .two-col, .two-col--wide-left, .two-col--wide-right { grid-template-columns: 1fr; gap: 30px; }
+            .photo-grid-wrap { grid-template-columns: 1fr; }
+            .slide-footer { left: 36px; right: 36px; }
+        }
+
+        @media print {
+            .slide { page-break-after: always; min-height: auto; padding: 40px; }
+            .nav-dots { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Dots — 18 slides -->
+    <nav class="nav-dots" id="navDots">
+        <div class="nav-dot active" onclick="scrollToSlide(0)" title="Title"></div>
+        <div class="nav-dot" onclick="scrollToSlide(1)" title="Contents"></div>
+        <div class="nav-dot" onclick="scrollToSlide(2)" title="Chapter 1"></div>
+        <div class="nav-dot" onclick="scrollToSlide(3)" title="Industrial"></div>
+        <div class="nav-dot" onclick="scrollToSlide(4)" title="Electrostate"></div>
+        <div class="nav-dot" onclick="scrollToSlide(5)" title="Capabilities"></div>
+        <div class="nav-dot" onclick="scrollToSlide(6)" title="IP Portfolio"></div>
+        <div class="nav-dot" onclick="scrollToSlide(7)" title="SAPP"></div>
+        <div class="nav-dot" onclick="scrollToSlide(8)" title="Chapter 2"></div>
+        <div class="nav-dot" onclick="scrollToSlide(9)" title="Overview"></div>
+        <div class="nav-dot" onclick="scrollToSlide(10)" title="Detail"></div>
+        <div class="nav-dot" onclick="scrollToSlide(11)" title="Annual Wind"></div>
+        <div class="nav-dot" onclick="scrollToSlide(12)" title="Monthly Wind"></div>
+        <div class="nav-dot" onclick="scrollToSlide(13)" title="Daily Pattern"></div>
+        <div class="nav-dot" onclick="scrollToSlide(14)" title="Heatmap"></div>
+        <div class="nav-dot" onclick="scrollToSlide(15)" title="Wind Map"></div>
+        <div class="nav-dot" onclick="scrollToSlide(16)" title="Solar"></div>
+        <div class="nav-dot" onclick="scrollToSlide(17)" title="Thank You"></div>
+    </nav>
+
+
+    <!-- ==========================================
+         SLIDE 1 — TITLE / HERO
+         ========================================== -->
+    <section class="slide slide--hero" id="slide-0">
+
+        <div class="animate-in" style="animation-delay: 0s;">
+            <img src="../assets/CENECLogoDark.png" alt="CENEC" class="cenec-logo-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="cenec-logo-text" style="display:none;">CEN<span>EC</span></span>
+        </div>
+
+        <div style="height: 32px;"></div>
+
+        <p class="subtitle animate-in" style="animation-delay: 0.2s;">Quick Assessment</p>
+
+        <h1 class="animate-in" style="animation-delay: 0.35s;">
+            Paardekraal<br><span class="text-accent">Wind Farm</span>
+        </h1>
+
+        <div class="divider divider--center animate-in" style="animation-delay: 0.5s;"></div>
+
+        <p class="animate-in" style="animation-delay: 0.65s; text-align: center; opacity: 0.7;">
+            Beaufort West &nbsp;·&nbsp; Western Cape Province
+        </p>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>Confidential</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 2 — TABLE OF CONTENTS
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-1">
+
+        <p class="subtitle animate-in">Overview</p>
+        <h2 class="animate-in" style="animation-delay: 0.15s;">
+            Table of <span class="text-accent">Contents</span>
+        </h2>
+        <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+
+        <ul class="toc-list animate-in" style="animation-delay: 0.45s; width: 100%;">
+            <li class="toc-item">
+                <span class="toc-number">01</span>
+                <span class="toc-title">Introduction — CENEC & Industrial Decarbonization</span>
+            </li>
+            <li class="toc-item">
+                <span class="toc-number">02</span>
+                <span class="toc-title">Assessment of Paardekraal Wind Farm</span>
+            </li>
+        </ul>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>02</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 3 — CHAPTER 1: Industrial Decarbonization
+         ========================================== -->
+    <section class="slide slide--chapter" id="slide-2"
+             style="background-image: url('../assets/ClimateAction.png');">
+        <div class="chapter-overlay"></div>
+        <div class="chapter-content">
+            <p class="subtitle animate-in">Chapter 01</p>
+            <h1 class="animate-in" style="animation-delay: 0.2s;">
+                Industrial<br><span class="text-accent">Decarbonization</span>
+            </h1>
+            <div class="divider divider--center animate-in" style="animation-delay: 0.4s;"></div>
+            <p class="animate-in" style="animation-delay: 0.55s; text-align: center; max-width: 560px; opacity: 0.8;">
+                CENEC & the pathway to zero-emission industry
+            </p>
+        </div>
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>03</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 4 — INDUSTRIAL PHOTO COLLAGE
+         ========================================== -->
+    <section class="slide" id="slide-3"
+             style="padding: 0; background: var(--cenec-dark); min-height: 100vh; position: relative;">
+
+        <div class="photo-grid-wrap">
+            <!-- Image 1 -->
+            <div class="photo-cell">
+                <img src="../assets/Industrial1.png" alt="Industrial facility"
+                     onerror="this.style.display='none';">
+                <div class="photo-cell-placeholder">Industrial 1</div>
+            </div>
+            <!-- Image 2 -->
+            <div class="photo-cell">
+                <img src="../assets/Industrial2.png" alt="Industrial facility"
+                     onerror="this.style.display='none';">
+                <div class="photo-cell-placeholder">Industrial 2</div>
+            </div>
+            <!-- Image 3 -->
+            <div class="photo-cell">
+                <img src="../assets/Industrial3.png" alt="Industrial facility"
+                     onerror="this.style.display='none';">
+                <div class="photo-cell-placeholder">Industrial 3</div>
+            </div>
+        </div>
+
+        <div class="slide-footer" style="z-index: 5;">
+            <span>CENEC © 2025</span>
+            <span>04</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 5 — BECOMING AN ELECTROSTATE
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-4">
+
+        <div class="two-col two-col--wide-left">
+            <!-- Left: Text content -->
+            <div>
+                <p class="subtitle animate-in">South Africa</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Becoming an <span class="text-accent">Electrostate</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    South Africa is poised to become an electrostate — unlocking massive growth by
+                    electrifying transport, industry and private life through renewables.
+                </p>
+                <ol class="step-list animate-in" style="animation-delay: 0.6s;">
+                    <li>Decarbonize and electrify the power system, replacing coal with clean energy.</li>
+                    <li>Electrify different sectors to substitute fossil molecules with electrons.</li>
+                </ol>
+                <p class="animate-in" style="animation-delay: 0.75s; margin-top: 16px;">
+                    CENEC drives this transition by decarbonizing industry in parallel with power
+                    sector transformation — creating synergies for green hydrogen, advanced
+                    manufacturing and low-carbon exports.
+                </p>
+            </div>
+            <!-- Right: Chart image -->
+            <div class="animate-in" style="animation-delay: 0.4s;">
+                <div class="img-wrap">
+                    <img src="../assets/GlobalFinalEnergy.png" alt="Global Final Energy chart"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>globalfinalenergy.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>05</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 6 — INDUSTRIAL DECARBONIZATION (CENEC)
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-5">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Image -->
+            <div class="animate-in">
+                <div class="img-wrap">
+                    <img src="../assets/GreenFactory.png" alt="Green Factory"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>greenfactory.png</div>';">
+                </div>
+            </div>
+            <!-- Right: Content -->
+            <div>
+                <div class="animate-in" style="margin-bottom: 12px;">
+                    <img src="../assets/CENECLogoDark.png" alt="CENEC" style="height: 34px; width: auto;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="cenec-logo-text" style="display:none; font-size:1.2rem;">CEN<span>EC</span></span>
+                </div>
+                <p class="subtitle animate-in" style="animation-delay: 0.1s;">Industrial Decarbonization</p>
+                <h2 class="animate-in" style="animation-delay: 0.2s;">
+                    A Complete <span class="text-accent">Value Chain</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.35s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    CENEC has built an extensive network around the whole development and value
+                    chain targeting industrial decarbonization, including:
+                </p>
+                <ul class="feature-list animate-in" style="animation-delay: 0.6s;">
+                    <li>Innovative technology providers</li>
+                    <li>Consulting engineers (civil, legal, specialist electrical & infrastructure)</li>
+                    <li>Chemical &amp; mechanical engineering</li>
+                    <li>In-house specialists for land assembly</li>
+                    <li>Environmental screening and permitting</li>
+                    <li>Contractual framework &amp; project structure</li>
+                </ul>
+                <p class="animate-in" style="animation-delay: 0.75s; margin-top: 14px; font-size: 0.9rem; opacity: 0.75;">
+                    Strategically positioned to address approximately
+                    <strong style="color: var(--cenec-green);">30% of global CO₂ emissions</strong>
+                    from industry.
+                </p>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>06</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 7 — IP PORTFOLIO
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-6">
+
+        <div class="two-col two-col--wide-left">
+            <!-- Left: Text + IP cards -->
+            <div>
+                <p class="subtitle animate-in">Innovation</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Industrial <span class="text-accent">Decarbonization</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.4s;">
+                    CENEC has built a strong portfolio of partners and technologies around
+                    renewable energy and industrial processes, enabling re-industrialization
+                    for South Africa in a green way.
+                </p>
+                <div class="ip-grid" id="ipGrid">
+                    <div class="ip-card">Methanol Synthesis</div>
+                    <div class="ip-card">Syngas Reformer</div>
+                    <div class="ip-card">Pressure Reformer (Biomass)</div>
+                    <div class="ip-card">High Temperature Storage</div>
+                    <div class="ip-card">Hydrogen Storage</div>
+                    <div class="ip-card">Innovative Pipeline Technology</div>
+                    <div class="ip-card">Long Duration Energy Storage</div>
+                    <div class="ip-card">Innovative Heat Pump Technology</div>
+                    <div class="ip-card">Cross-Sector Energy Modelling</div>
+                    <div class="ip-card more">+ And more…</div>
+                </div>
+            </div>
+            <!-- Right: Image -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/IndustrialDecarbonization1.png" alt="Industrial Decarbonization"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>industrialdecarbonization1.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>07</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 8 — SOUTH AFRICAN POWER POOL
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-7">
+
+        <div class="two-col">
+            <!-- Left: Text -->
+            <div>
+                <p class="subtitle animate-in">Regional Energy Market</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    South African <span class="text-accent">Power Pool</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    The SAPP, linking 12 SADC countries, faces a
+                    <strong style="color: var(--cenec-green);">4,200 MW power deficit</strong>
+                    but is rapidly evolving — trading volumes are growing and private players
+                    are entering the market.
+                </p>
+                <ul class="wind-bullets animate-in" style="animation-delay: 0.6s;">
+                    <li>Grid expansion: connecting Malawi, Tanzania & Angola by 2028</li>
+                    <li>ReTrade SAPP modernisation, backed by the World Bank</li>
+                    <li>Dedicated green power market under development</li>
+                    <li>Billions unlocked for cross-border renewable infrastructure</li>
+                </ul>
+            </div>
+            <!-- Right: Image -->
+            <div class="animate-in" style="animation-delay: 0.4s;">
+                <div class="img-wrap">
+                    <img src="../assets/SAPowerPool.png" alt="SA Power Pool"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>sapowerpool.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>08</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 9 — CHAPTER 2: Paardekraal Assessment
+         ========================================== -->
+    <section class="slide slide--chapter" id="slide-8"
+             style="background-image: url('../assets/Wind1.png');">
+        <div class="chapter-overlay"></div>
+        <div class="chapter-content">
+            <p class="subtitle animate-in">Chapter 02</p>
+            <h1 class="animate-in" style="animation-delay: 0.2s;">
+                Paardekraal<br><span class="text-accent">Assessment</span>
+            </h1>
+            <div class="divider divider--center animate-in" style="animation-delay: 0.4s;"></div>
+            <p class="animate-in" style="animation-delay: 0.55s; text-align: center; max-width: 560px; opacity: 0.8;">
+                Wind & solar resource evaluation, Beaufort West — Western Cape
+            </p>
+        </div>
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>09</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 10 — PAARDEKRAAL OVERVIEW (full-screen)
+         ========================================== -->
+    <section class="slide slide--image-only" id="slide-9"
+             style="background-image: url('../assets/PaardekraalOverview.png');">
+        <div class="slide-footer" style="z-index: 5; background: none;">
+            <span>CENEC © 2025</span>
+            <span>10</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 11 — PAARDEKRAAL DETAIL (full-screen)
+         ========================================== -->
+    <section class="slide slide--image-only" id="slide-10"
+             style="background-image: url('../assets/PaardekraalDetail.png');">
+        <div class="slide-footer" style="z-index: 5;">
+            <span>CENEC © 2025</span>
+            <span>11</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 12 — WIND ASSESSMENT: ANNUAL DISTRIBUTION
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-11">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Headline + text -->
+            <div>
+                <p class="subtitle animate-in">Wind Assessment</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Annual <span class="text-accent">Distribution</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    Paardekraal Wind Farm
+                </p>
+                <div class="assessment-box animate-in" style="animation-delay: 0.6s;">
+                    Annual deviation higher than in other regions, but acceptable.
+                    <strong style="color: var(--cenec-green);">Bankable outcome expected.</strong>
+                </div>
+            </div>
+            <!-- Right: Chart -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/Paardekraal.YearlyBarchart.png" alt="Yearly Bar Chart"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>paardekraal.yearlybarchart.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>12</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 13 — WIND ASSESSMENT: MONTHLY DISTRIBUTION
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-12">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Headline + text -->
+            <div>
+                <p class="subtitle animate-in">Wind Assessment</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Monthly <span class="text-accent">Distribution</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    Paardekraal Wind Farm
+                </p>
+                <div class="assessment-box animate-in" style="animation-delay: 0.6s;">
+                    Monthly distribution <strong style="color: var(--cenec-green);">favours a combination
+                    with solar power</strong> — a wind profile dominated by the winter months.
+                </div>
+                <p class="animate-in" style="animation-delay: 0.75s; margin-top: 14px; font-size: 0.9rem; opacity: 0.65;">
+                    Winter wind peak complements summer solar peak — ideal hybrid resource.
+                </p>
+            </div>
+            <!-- Right: Chart -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/Paardekraal.MonthlyBarchart.png" alt="Monthly Bar Chart"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>paardekraal.monthlybarchart.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>13</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 14 — WIND ASSESSMENT: DAILY PATTERN
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-13">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Headline + text -->
+            <div>
+                <p class="subtitle animate-in">Wind Assessment</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Daily <span class="text-accent">Pattern</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    Paardekraal Wind Farm
+                </p>
+                <div class="assessment-box animate-in" style="animation-delay: 0.6s;">
+                    The daily average and day/night pattern favours
+                    <strong style="color: var(--cenec-green);">green molecule (green hydrogen)
+                    production</strong> in combination with solar.
+                </div>
+            </div>
+            <!-- Right: Chart -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/Paardekraal.HourlyBarchart.png" alt="Hourly Bar Chart"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>paardekraal.hourlybarchart.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>14</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 15 — WIND ASSESSMENT: SEASONAL HEATMAP
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-14">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Headline + bullets + CF highlight -->
+            <div>
+                <p class="subtitle animate-in">Wind Assessment</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Seasonal <span class="text-accent">Heatmap</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <ul class="wind-bullets animate-in" style="animation-delay: 0.45s;">
+                    <li>Summer/winter distribution is quite extreme — needs significant solar support.</li>
+                    <li>Night wind outside summer season significantly weaker.</li>
+                </ul>
+                <!-- Capacity Factor highlight -->
+                <div class="cf-highlight animate-in" style="animation-delay: 0.65s;">
+                    <div class="cf-value">&gt;45%</div>
+                    <div class="cf-label">Expected Capacity Factor</div>
+                    <div style="font-size: 0.82rem; opacity: 0.65; margin-top: 6px; font-family: var(--font-body); font-weight: 300;">
+                        Above 50% possible
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Heatmap image -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/Paardekraal.Heatmap.png" alt="Wind Heatmap"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>paardekraal.heatmap.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>15</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 16 — WIND MAP (full-screen)
+         ========================================== -->
+    <section class="slide slide--image-only" id="slide-15"
+             style="background-image: url('../assets/Paardekraal.Wind.png');">
+        <div class="slide-footer" style="z-index: 5;">
+            <span>CENEC © 2025</span>
+            <span>16</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 17 — SOLAR ASSESSMENT
+         ========================================== -->
+    <section class="slide slide--dark" id="slide-16">
+
+        <div class="two-col two-col--wide-right">
+            <!-- Left: Headline + text + stat callouts -->
+            <div>
+                <p class="subtitle animate-in">Solar Assessment</p>
+                <h2 class="animate-in" style="animation-delay: 0.15s;">
+                    Paardekraal <span class="text-accent">Solar</span>
+                </h2>
+                <div class="divider animate-in" style="animation-delay: 0.3s;"></div>
+                <p class="animate-in" style="animation-delay: 0.45s;">
+                    Solar site has acceptable values for performance.
+                </p>
+                <!-- Stat callouts — DNI and PV output extracted from graphic -->
+                <div class="stat-callouts animate-in" style="animation-delay: 0.6s;">
+                    <div class="stat-callout">
+                        <div class="stat-callout-value">2794.8 <span style="font-size: 0.45em; font-weight: 400; opacity: 0.8;">kWh/m²</span></div>
+                        <div class="stat-callout-label">DNI</div>
+                    </div>
+                    <div class="stat-callout">
+                        <div class="stat-callout-value">1948.2 <span style="font-size: 0.45em; font-weight: 400; opacity: 0.8;">kWh/kWp</span></div>
+                        <div class="stat-callout-label">PVout</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Solar graphic -->
+            <div class="animate-in" style="animation-delay: 0.35s;">
+                <div class="img-wrap">
+                    <img src="../assets/PaardekraalSolar.png" alt="Paardekraal Solar Assessment"
+                         onerror="this.outerHTML='<div class=\'img-placeholder\'>paardekraalsolar.png</div>';">
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">
+            <span>CENEC © 2025</span>
+            <span>17</span>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SLIDE 18 — THANK YOU / CTA
+         ========================================== -->
+    <section class="slide slide--chapter" id="slide-17"
+             style="background-image: url('../assets/WindFarm.png');">
+        <div class="chapter-overlay" style="background: linear-gradient(135deg, rgba(22,33,62,0.92) 0%, rgba(26,26,46,0.82) 60%, rgba(78,204,163,0.1) 100%);"></div>
+        <div class="chapter-content">
+
+            <div class="animate-in" style="margin-bottom: 16px;">
+                <img src="../assets/CENECLogoDark.png" alt="CENEC" style="height: 44px; width: auto;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="cenec-logo-text" style="display:none;">CEN<span>EC</span></span>
+            </div>
+
+            <h1 class="animate-in" style="animation-delay: 0.2s; font-size: clamp(3rem, 6vw, 6rem);">
+                Thank <span class="text-accent">You</span>
+            </h1>
+            <div class="divider divider--center animate-in" style="animation-delay: 0.35s;"></div>
+
+            <p class="animate-in" style="animation-delay: 0.5s; text-align: center; max-width: 600px; font-size: 1.15rem; opacity: 0.9;">
+                Ready to move forward with Paardekraal Wind Farm?
+            </p>
+
+            <div class="animate-in" style="animation-delay: 0.65s; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 10px;">
+                <a href="https://www.cenec.com/contact/" class="btn-cta" target="_blank">
+                    Get in Touch →
+                </a>
+                <a href="https://www.cenec.com" class="btn-outline" target="_blank">
+                    Learn More
+                </a>
+            </div>
+
+            <p class="animate-in" style="animation-delay: 0.8s; margin-top: 28px; text-align: center; font-size: 0.82rem; opacity: 0.45; font-family: var(--font-heading); letter-spacing: 0.1em; text-transform: uppercase;">
+                Honest partnerships · Innovative solutions · Definitive delivery
+            </p>
+
+        </div>
+        <div class="slide-footer" style="color: rgba(255,255,255,0.35);">
+            <span>CENEC © 2025</span>
+            <span>Confidential</span>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         JAVASCRIPT — Navigation, Animations, Keyboard
+         ============================================ -->
+    <script>
+        // ── Slide references ──────────────────────────────
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+        let currentSlide = 0;
+
+        // ── Scroll to slide ───────────────────────────────
+        function scrollToSlide(index) {
+            if (slides[index]) {
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // ── IntersectionObserver: active nav dot + animations ──
+        const slideObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = [...slides].indexOf(entry.target);
+                    currentSlide = index;
+                    currentAnimStep = 0;
+
+                    // Update nav dots
+                    navDots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+
+                    // Trigger animate-in elements
+                    entry.target.querySelectorAll('.animate-in, .fade-in').forEach((el, i) => {
+                        // Only trigger if not already animated
+                        if (el.style.animationPlayState !== 'running' && !el.classList.contains('triggered')) {
+                            el.classList.add('triggered');
+                            el.style.animationPlayState = 'running';
+                        }
+                    });
+
+                    // IP portfolio cards — sequential reveal on Slide 7 (index 6)
+                    if (index === 6) {
+                        triggerIPCards();
+                    }
+                }
+            });
+        }, { threshold: 0.4 });
+
+        slides.forEach(slide => slideObserver.observe(slide));
+
+        // ── IP Cards sequential reveal ────────────────────
+        function triggerIPCards() {
+            const cards = document.querySelectorAll('#ipGrid .ip-card');
+            cards.forEach((card, i) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                    card.style.animationDelay = '0s';
+                }, i * 80 + 600); // start after slide title animations
+            });
+        }
+
+        // ── Sequential animation state ────────────────────
+        let currentAnimStep = 0;
+
+        // Per-slide manual animation sequences (space/right arrow steps)
+        const slideAnimations = {
+            // Slide 7 (index 6): IP portfolio — handled by triggerIPCards automatically
+            // Slide 15 (index 14): heatmap — CF highlight is key element
+        };
+
+        // ── Keyboard navigation ───────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentSlide < slides.length - 1) {
+                    scrollToSlide(currentSlide + 1);
+                }
+            }
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlide > 0) {
+                    scrollToSlide(currentSlide - 1);
+                }
+            }
+        });
+
+        // ── Reset animation state on slide re-entry ───────
+        // Allow re-animation when user scrolls back
+        const replayObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    // Reset animate-in elements when slide scrolls off
+                    entry.target.querySelectorAll('.animate-in.triggered').forEach(el => {
+                        el.classList.remove('triggered');
+                        el.style.animationPlayState = 'paused';
+                        // Force reflow
+                        void el.offsetHeight;
+                    });
+                    // Reset IP cards
+                    if ([...slides].indexOf(entry.target) === 6) {
+                        document.querySelectorAll('#ipGrid .ip-card').forEach(card => {
+                            card.classList.remove('animate-in');
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.05 });
+
+        slides.forEach(slide => replayObserver.observe(slide));
+
+        // ── Photo cell fallback cleanup ───────────────────
+        // If image loads successfully, hide the placeholder text
+        document.querySelectorAll('.photo-cell img').forEach(img => {
+            img.addEventListener('load', () => {
+                const placeholder = img.parentElement.querySelector('.photo-cell-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            });
+            // If already loaded (cached)
+            if (img.complete && img.naturalWidth > 0) {
+                const placeholder = img.parentElement.querySelector('.photo-cell-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+
+    </script>
+
+</body>
+</html>
