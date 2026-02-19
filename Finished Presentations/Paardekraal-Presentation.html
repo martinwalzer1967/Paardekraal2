@@ -561,7 +561,7 @@
            ============================================ */
         .slide-footer {
             position: absolute;
-            bottom: 22px;
+            bottom: 62px;
             left: 90px;
             right: 90px;
             display: flex;
@@ -724,6 +724,103 @@
         @media print {
             .slide { page-break-after: always; min-height: auto; padding: 40px; }
             .nav-dots { display: none; }
+            .nav-tab-bar { display: none; }
+        }
+
+        /* ============================================
+           BOTTOM NAVIGATION TAB BAR
+           ============================================ */
+        .nav-tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 300;
+            height: 50px;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            background: rgba(20, 28, 50, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 1px solid rgba(78, 204, 163, 0.1);
+        }
+
+        .nav-tab-items {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .nav-tab-items::-webkit-scrollbar { display: none; }
+
+        .nav-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 14px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.22s ease;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            min-width: 52px;
+            flex-shrink: 0;
+        }
+
+        .nav-tab-item:hover {
+            background: rgba(78, 204, 163, 0.06);
+        }
+
+        .nav-tab-item.active {
+            border-bottom-color: var(--cenec-green);
+            background: rgba(78, 204, 163, 0.05);
+        }
+
+        .nav-tab-num {
+            font-family: var(--font-heading);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.22s ease;
+            line-height: 1;
+        }
+
+        .nav-tab-item:hover .nav-tab-num,
+        .nav-tab-item.active .nav-tab-num {
+            color: var(--cenec-green);
+        }
+
+        .nav-tab-name {
+            font-family: var(--font-heading);
+            font-size: 0.52rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.2);
+            transition: color 0.22s ease;
+            margin-top: 3px;
+            line-height: 1;
+        }
+
+        .nav-tab-item:hover .nav-tab-name,
+        .nav-tab-item.active .nav-tab-name {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        /* Chapter divider pip */
+        .nav-tab-divider {
+            width: 1px;
+            background: rgba(78, 204, 163, 0.14);
+            align-self: center;
+            height: 20px;
+            flex-shrink: 0;
+            margin: 0 4px;
         }
     </style>
 </head>
@@ -749,6 +846,88 @@
         <div class="nav-dot" onclick="scrollToSlide(15)" title="Wind Map"></div>
         <div class="nav-dot" onclick="scrollToSlide(16)" title="Solar"></div>
         <div class="nav-dot" onclick="scrollToSlide(17)" title="Thank You"></div>
+    </nav>
+
+    <!-- Bottom Navigation Tab Bar -->
+    <nav class="nav-tab-bar" id="navTabBar">
+        <div class="nav-tab-items" id="navTabItems">
+            <!-- Chapter 1 -->
+            <div class="nav-tab-item active" onclick="scrollToSlide(0)">
+                <span class="nav-tab-num">01</span>
+                <span class="nav-tab-name">Title</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(1)">
+                <span class="nav-tab-num">02</span>
+                <span class="nav-tab-name">Contents</span>
+            </div>
+            <div class="nav-tab-divider"></div>
+            <div class="nav-tab-item" onclick="scrollToSlide(2)">
+                <span class="nav-tab-num">03</span>
+                <span class="nav-tab-name">Ch. 01</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(3)">
+                <span class="nav-tab-num">04</span>
+                <span class="nav-tab-name">Industry</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(4)">
+                <span class="nav-tab-num">05</span>
+                <span class="nav-tab-name">Electrostate</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(5)">
+                <span class="nav-tab-num">06</span>
+                <span class="nav-tab-name">Capabilities</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(6)">
+                <span class="nav-tab-num">07</span>
+                <span class="nav-tab-name">IP Portfolio</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(7)">
+                <span class="nav-tab-num">08</span>
+                <span class="nav-tab-name">SAPP</span>
+            </div>
+            <!-- Chapter 2 -->
+            <div class="nav-tab-divider"></div>
+            <div class="nav-tab-item" onclick="scrollToSlide(8)">
+                <span class="nav-tab-num">09</span>
+                <span class="nav-tab-name">Ch. 02</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(9)">
+                <span class="nav-tab-num">10</span>
+                <span class="nav-tab-name">Overview</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(10)">
+                <span class="nav-tab-num">11</span>
+                <span class="nav-tab-name">Detail</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(11)">
+                <span class="nav-tab-num">12</span>
+                <span class="nav-tab-name">Annual</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(12)">
+                <span class="nav-tab-num">13</span>
+                <span class="nav-tab-name">Monthly</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(13)">
+                <span class="nav-tab-num">14</span>
+                <span class="nav-tab-name">Daily</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(14)">
+                <span class="nav-tab-num">15</span>
+                <span class="nav-tab-name">Heatmap</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(15)">
+                <span class="nav-tab-num">16</span>
+                <span class="nav-tab-name">Wind Map</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(16)">
+                <span class="nav-tab-num">17</span>
+                <span class="nav-tab-name">Solar</span>
+            </div>
+            <div class="nav-tab-item" onclick="scrollToSlide(17)">
+                <span class="nav-tab-num">18</span>
+                <span class="nav-tab-name">Thank You</span>
+            </div>
+        </div>
     </nav>
 
 
@@ -1365,6 +1544,7 @@
         // ── Slide references ──────────────────────────────
         const slides = document.querySelectorAll('.slide');
         const navDots = document.querySelectorAll('.nav-dot');
+        const navTabItems = document.querySelectorAll('.nav-tab-item');
         let currentSlide = 0;
 
         // ── Scroll to slide ───────────────────────────────
@@ -1386,6 +1566,15 @@
                     navDots.forEach((dot, i) => {
                         dot.classList.toggle('active', i === index);
                     });
+
+                    // Update bottom tab bar
+                    navTabItems.forEach((tab, i) => {
+                        tab.classList.toggle('active', i === index);
+                    });
+                    // Scroll active tab into view within the bar
+                    if (navTabItems[index]) {
+                        navTabItems[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
 
                     // Trigger animate-in elements
                     entry.target.querySelectorAll('.animate-in, .fade-in').forEach((el, i) => {
